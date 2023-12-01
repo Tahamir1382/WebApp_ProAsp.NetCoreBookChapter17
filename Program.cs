@@ -14,7 +14,7 @@ builder.Services.AddDbContext<DataContext>(opts => {
 });
 
 builder.Services.AddControllers(); //defines the services that are required by the mvc framework
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddEndpointsApiExplorer(); //added endpoint explorer for more clarity
 //builder.Services.AddSwaggerGen();
 var app = builder.Build(); //returns the fully configed WebApplication instance
 
