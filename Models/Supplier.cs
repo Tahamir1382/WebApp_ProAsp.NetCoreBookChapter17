@@ -1,5 +1,6 @@
 ﻿namespace WebApp.Models
 {
+    //this class represents a Supplier
     public class Supplier
     {
         public long SupplierId { get; set; }
