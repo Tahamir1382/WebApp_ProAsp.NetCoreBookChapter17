@@ -13,36 +13,36 @@ namespace WebApp.Controllers
         }
 
         [HttpGet] //so these are attributes that are applied to an action this one means just a normal httpget with url like api/products
-        public IEnumerable<Product> GetProducts() {
-            return context.Products;
+        public IAsyncEnumerable<Product> GetProducts() {
+            return context.Products.AsAsyncEnumerable();
         }
 
         [HttpGet("{id}")] //this one is saying that only a url with patter like /api/products/id
-        public Product? GetProduct(long id, [FromServices] ILogger<ProductsController> logger) { //what does the logger service actually do?
+        public async Task<Product?> GetProduct(long id, [FromServices] ILogger<ProductsController> logger) { //what does the logger service actually do?
             logger.LogInformation("GetProduct action invoked");
-            return context.Products.Find(id);
+            return await context.Products.FindAsync(id);
         }
 
         [HttpPost]
-        public void SaveProduct([FromBody] Product product) {
-            context.Products.Add(product);
-            context.SaveChanges();
+        public async Task SaveProduct([FromBody] Product product) {
+            await context.Products.FindAsync(product);
+            await context.SaveChangesAsync();
         }
 
         [HttpPut]
-        public void UpadateProduct([FromBody] Product product) {
+        public async Task UpadateProduct([FromBody] Product product) {
             context.Products.Update(product);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         [HttpDelete("{id}")]
-        public void DeleteProduct(long id) {
+        public async Task DeleteProduct(long id) {
             context.Remove(new Product()
             {
                 ProductId = id,
                 Name = string.Empty
             });
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }
